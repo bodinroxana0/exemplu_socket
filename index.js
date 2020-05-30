@@ -26,10 +26,10 @@ io.on('connection', function (socket) {
 		socket.join(room);
 		callback();
     });
-	socket.on('sendmessage',(message,callback) =>{
+	socket.on('sendmessage',(message,time,callback) =>{
 		const user=getUser(socket.id);
 		console.log(user);
-		io.to(user.room).emit('message',{user:user.name,text:message});
+		io.to(user.room).emit('message',{user:user.name,text:message,time:time});
 	});
 	socket.on('disconnect', () => {
     console.log('user disconnected');
