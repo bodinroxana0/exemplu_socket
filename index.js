@@ -5,6 +5,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const ENDPOINT="https://localhost:3000" ;//"https://comunitate.netlify.app"; 
 app.get('/', (req, res) => {
+	res.setHeader('Access-Control-Allow-Origin', ENDPOINT);
 console.log("here");
 });
 app.use(
