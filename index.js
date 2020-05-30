@@ -24,10 +24,14 @@ io.on('connection', function (socket) {
 	socket.on('sendmessage',(message,time,callback) =>{
 		const user=getUser(socket.id);
 		console.log(time);
-		if(user.room)
+		try(
+		{ 
+			console.log(user.room);
 			io.to(user.room).emit('message',{user:user.name,text:message,sendingtime:time});
-		else
-			console.log("re-enter room");
+		}
+		catch{
+		console.log("re-enter room");
+		}
 	});
 });
 const users=[];
