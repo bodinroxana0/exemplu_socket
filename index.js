@@ -13,19 +13,7 @@ app.use(
     origin: ENDPOINT,
     credentials: true,
   }));
-/*io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
- });
-});
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-  console.log('message: ' + msg);
-});
-});*/
 io.on('connection', function (socket) {
-    console.log('a user connected');
     socket.on('join', ({name,room}, callback) => {
 		const {error, user}=addUser({id:socket.id,name,room});
 		if(error) return callback(error);
@@ -36,10 +24,11 @@ io.on('connection', function (socket) {
 	socket.on('sendmessage',(message,time,callback) =>{
 		const user=getUser(socket.id);
 		console.log(time);
-		io.to(user.room).emit('message',{user:user.name,text:message,sendingtime:time});
+		if(user.room)
+			io.to(user.room).emit('message',{user:user.name,text:message,sendingtime:time});
+		else
+			console.log("re-enter room");
 	});
-	socket.on('disconnect', () => {
-    console.log('user disconnected');
  });
 });
 const users=[];
