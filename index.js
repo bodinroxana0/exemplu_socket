@@ -2,10 +2,15 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const PORT = process.env.PORT || 5000;
-
+const ENDPOINT="https://localhost:3000" ;//"https://comunitate.netlify.app"; 
 app.get('/', (req, res) => {
 console.log("here");
 });
+app.use(
+  cors({
+    origin: ENDPOINT,
+    credentials: true,
+  }));
 /*io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('disconnect', () => {
