@@ -32,6 +32,7 @@ io.on('connection', function (socket) {
 		catch{
 		console.log("re-enter room");
 		}
+		callback();
 	});
 });
 const users=[];
