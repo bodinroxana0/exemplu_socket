@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const PORT = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
 res.sendFile(__dirname + '/index.html');
@@ -10,13 +11,12 @@ res.sendFile(__dirname + '/index.html');
   socket.on('disconnect', () => {
     console.log('user disconnected');
  });
+});
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+  console.log('message: ' + msg);
+});
 });*/
-
-//io.on('connection', (socket) => {
-  //socket.on('chat message', (msg) => {
-   // console.log('message: ' + msg);
- // });
-//});
 io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('join', ({name,room}, callback) => {
@@ -48,6 +48,8 @@ const addUser=({id,name,room})=>{
 	return {user};
 }
 const getUser=(id)=>users.find((user)=>user.id===id);
-http.listen(3001, () => {
-  console.log('listening on *:3001');
+
+//server settings
+http.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
 });
