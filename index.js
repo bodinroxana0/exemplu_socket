@@ -3,7 +3,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
-const ENDPOINT="https://localhost:3000" ;//"https://comunitate.netlify.app"; 
+const ENDPOINT= "https://comunitate.netlify.app";  //"https://localhost:3000";
 app.get('/', (req, res) => {
 	res.setHeader('Access-Control-Allow-Origin', ENDPOINT);
 console.log("here");
