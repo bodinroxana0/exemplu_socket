@@ -28,7 +28,7 @@ io.on('connection', function (socket) {
     });
 	socket.on('sendmessage',(message,time,callback) =>{
 		const user=getUser(socket.id);
-		console.log(user);
+		console.log(time);
 		io.to(user.room).emit('message',{user:user.name,text:message,time:time});
 	});
 	socket.on('disconnect', () => {
