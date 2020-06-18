@@ -14,8 +14,8 @@ app.use(
     credentials: true,
   }));
 io.on('connection', function (socket) {
-    socket.on('join', ({name,room}, callback) => {
-		const {error, user}=addUser({id:socket.id,name,room});
+    socket.on('join', ({name,room,email}, callback) => {
+		const {error, user}=addUser({id:socket.id,name,room,email});
 		if(error) return callback(error);
 		console.log(room,user);
 		socket.join(room);
@@ -27,7 +27,7 @@ io.on('connection', function (socket) {
 		try
 		{ 
 			console.log(user.room);
-			io.to(user.room).emit('message',{user:user.name,text:message,sendingtime:time});
+			io.to(user.room).emit('message',{user:user.name,text:message,sendingtime:time,email:user.email});
 		}
 		catch{
 		console.log("re-enter room");
@@ -36,14 +36,15 @@ io.on('connection', function (socket) {
 	});
 });
 const users=[];
-const addUser=({id,name,room})=>{
+const addUser=({id,name,room,email})=>{
+	email=email.trim().toLowerCase();
 	name=name.trim().toLowerCase();
 	room=room.trim().toLowerCase();
 	const existingUser=users.find((user)=>user.room===room && user.name===name);
 	if(existingUser){
 		return {error:'Username is taken'};
 	}
-		const user={id,name,room};
+		const user={id,name,room,email};
 		users.push(user);
 	return {user};
 }
